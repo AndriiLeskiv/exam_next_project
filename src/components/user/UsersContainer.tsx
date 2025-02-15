@@ -20,7 +20,9 @@ const UsersContainer = () => {
     const searchQuery = searchParams.get("q") || "";
 
     useEffect(() => {
-        fetchUsers(page, searchQuery);
+        fetchUsers(page, searchQuery).catch((error) =>
+            console.error("Помилка отримання юзерів:", error)
+        );
     }, [page, searchQuery]);
 
     const fetchUsers = async (page: number, query: string) => {

@@ -14,18 +14,18 @@ const RecipesContainer = () => {
 
     const [recipes, setRecipes] = useState<IRecipes[]>([]);
     const [total, setTotal] = useState(0);
-    const [loading, setLoading] = useState(false);
 
     const page = Number(searchParams.get("page")) || 1;
     const searchQuery = searchParams.get("q") || "";
     const tag = searchParams.get("tag") || "";
 
     useEffect(() => {
-        fetchRecipes(page, searchQuery, tag);
+        fetchRecipes(page, searchQuery, tag).catch((error) =>
+            console.error("Помилка отримання рецептів:", error)
+        );
     }, [page, searchQuery, tag]);
 
     const fetchRecipes = async (page: number, query: string, tag: string) => {
-        setLoading(true);
         try {
             let response;
             if (tag) {
@@ -37,8 +37,6 @@ const RecipesContainer = () => {
             setTotal(response.total);
         } catch (error) {
             console.error("Помилка отримання рецептів:", error);
-        } finally {
-            setLoading(false);
         }
     };
 

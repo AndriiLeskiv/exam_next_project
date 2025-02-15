@@ -15,7 +15,8 @@ export const retrieveTokenFromStorage = <T>(key: string): T | null => {
 
 // Збереження значення в cookies
 export const setTokenToStorage = (key: string, value: string | object, maxAge = 60 * 60 * 24) => {
-    setCookie(key, value, { path: "/", maxAge });
+    const serializedValue = typeof value === "object" ? JSON.stringify(value) : value;
+    setCookie(key, serializedValue, { path: "/", maxAge });
 };
 
 // Видалення конкретного ключа з cookies

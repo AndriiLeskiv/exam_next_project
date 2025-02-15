@@ -6,16 +6,16 @@ import {IRecipes} from "@/models/recipes/IRecipes";
 
 export const loginUser = async (username: string, password: string): Promise<IUserToken> => {
     try {
-        const response = await axiosInstance.post("/login", {username, password});
-        setTokenToStorage("accessToken", response.data.accessToken);
-        setTokenToStorage("refreshToken", response.data.refreshToken);
+        const {data} = await axiosInstance.post("/login", {username, password});
+        setTokenToStorage("accessToken", data.accessToken);
+        setTokenToStorage("refreshToken", data.refreshToken);
 
         setTokenToStorage("user", {
-            firstName: response.data.firstName,
-            image: response.data.image,
+            firstName: data.firstName,
+            image: data.image,
         });
 
-        return response.data;
+        return data;
     } catch (error: unknown) {
         if (error instanceof Error) {
             throw new Error(error.message || "Login failed");
@@ -37,7 +37,6 @@ export const getAllUsers = async (page: number, query: string): Promise<{ users:
         throw error;
     }
 };
-
 
 export const getUserById = async (id: number): Promise<IUser> => {
     try {
@@ -62,7 +61,6 @@ export const getAllRecipes = async (page: number, query: string): Promise<{
 
         console.log('response', data)
         return data;
-
     } catch (error) {
         console.error("Помилка отримання рецептів:", error);
         throw error;
