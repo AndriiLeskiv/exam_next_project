@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useState, useEffect } from "react";
 import {clearAuthData, retrieveTokenFromStorage} from "@/service/helpers";
-import {router} from "next/client";
+import { useRouter } from "next/navigation";
 
 interface User {
     firstName: string;
@@ -23,6 +23,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [user, setUser] = useState<User | null>(null);
+    const router = useRouter();
 
     useEffect(() => {
         const token = retrieveTokenFromStorage<string>("accessToken");

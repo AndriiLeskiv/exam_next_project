@@ -3,7 +3,6 @@ import { getCookie, setCookie, deleteCookie } from "cookies-next";
 // Отримання значення з cookies
 export const retrieveTokenFromStorage = <T>(key: string): T | null => {
     const cookieValue = getCookie(key);
-
     if (!cookieValue) return null;
 
     try {

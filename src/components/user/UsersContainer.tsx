@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { IUser } from "@/models/user/IUser";
-import { getAllUsers } from "@/service/api.service";
+import {getAllUsers} from "@/service/api.service";
 import { UserList } from "@/components/user/UserList";
 import { useRouter, useSearchParams } from "next/navigation";
 import {SearchBar} from "@/components/search/SearchBar";
@@ -18,6 +18,7 @@ const UsersContainer = () => {
 
     const page = Number(searchParams.get("page")) || 1;
     const searchQuery = searchParams.get("q") || "";
+
 
     useEffect(() => {
         fetchUsers(page, searchQuery).catch((error) =>

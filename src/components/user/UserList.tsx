@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { IUser } from "@/models/user/IUser";
 import "./UserList.css";
+import {FC} from "react";
 
 interface UserCardProps {
     user: IUser;
