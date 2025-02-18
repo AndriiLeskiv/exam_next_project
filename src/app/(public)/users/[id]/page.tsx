@@ -17,7 +17,7 @@ export const generateMetadata = ({params}: Props): Metadata => {
     };
 }
 
-const UserPage: FC<Props> = async ({params}) => {
+const OneUserPage: FC<Props> = async ({params}) => {
     try {
         const selectedUser: IUser = await getUserById(+params.id);
         const userRecipes: IRecipes[] = await getAllRecipesForUser(+params.id);
@@ -37,4 +37,4 @@ const UserPage: FC<Props> = async ({params}) => {
     }
 };
 
-export default UserPage;
+export default OneUserPage;

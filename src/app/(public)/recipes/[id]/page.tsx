@@ -9,18 +9,13 @@ type Props = {
     recipes: IRecipes;
 };
 
-export const generateMetadata = async ({ params }: Props): Promise<Metadata> => {
-    const selectedRecipe = await getRecipeById(+params.id);
-
+export const generateMetadata = ({params}: Props): Metadata => {
     return {
-        title: selectedRecipe ? `Recipe: ${selectedRecipe.name}` : "Recipe Not Found",
-        description: selectedRecipe
-            ? `Learn how to cook ${selectedRecipe.name}, a delicious ${selectedRecipe.cuisine} recipe!`
-            : "Recipe details not found.",
+        title: `Recipe page title ${params.id}`,
     };
-};
+}
 
-const RecipePage: FC<Props> = async ({ params }) => {
+const OneRecipePage: FC<Props> = async ({ params }) => {
     try {
         const selectedRecipe: IRecipes = await getRecipeById(+params.id);
 
@@ -40,4 +35,4 @@ const RecipePage: FC<Props> = async ({ params }) => {
     }
 };
 
-export default RecipePage;
+export default OneRecipePage;

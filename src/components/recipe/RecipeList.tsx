@@ -10,9 +10,10 @@ interface RecipeListProps {
 export const RecipeList = ({ recipe, onTagClick }: RecipeListProps) => {
     return (
         <div className="recipe-item">
-            <Link href={`/recipes/${recipe.id}`} className="recipe-title">
+            <Link href={`/recipes/${recipe.id}/list-page`} className="recipe-title">
                 {recipe.name}
             </Link>
+
             <div className="recipe-tags">
                 {recipe.tags?.map((tag, index) => (
                     <span key={index} className="tag" onClick={() => onTagClick(tag)}>
