@@ -1,22 +1,26 @@
 import axios from "axios";
-import { retrieveTokenFromStorage, setTokenToStorage } from "./helpers";
+import {setTokenToStorage} from "./helpers";
+import {retrieveTokenFromServer} from "@/service/helpers.server";
+import {getCookie} from "cookies-next";
 
 // Створення екземпляра axios з базовим URL
 const axiosInstance = axios.create({
     baseURL: "https://dummyjson.com/auth",
-    // withCredentials: true
 });
 
-// Перехоплювач запитів для додавання токену в заголовки
+// Перехоплювач запитів для додавання токена в заголовки
 axiosInstance.interceptors.request.use(
-    (config) => {
-        const token = retrieveTokenFromStorage<string>("accessToken");
-        console.log("Token в interceptors.request:", token);
+    async (config) => {
+        let token: string | null;
+        if (typeof window === "undefined") {
+            token = await retrieveTokenFromServer("accessToken");
+        } else {
+            token = getCookie("accessToken") as string | null;
+        }
 
         if (token) {
             config.headers["Authorization"] = `Bearer ${token}`;
         }
-
         return config;
     },
     (error) => {
@@ -35,34 +39,35 @@ axiosInstance.interceptors.response.use(
         // Перевіряємо, чи є помилка авторизації (401)
         if (error.response?.status === 401 && !originalRequest._retry) {
             originalRequest._retry = true;
-            const refreshToken = retrieveTokenFromStorage<string>("refreshToken");
+            let refreshToken: string | null;
+            if (typeof window === "undefined") {
+                refreshToken = await retrieveTokenFromServer("refreshToken");
+            } else {
+                refreshToken = getCookie("refreshToken") as string | null;
+            }
+            // const refreshToken = retrieveTokenFromStorage<string>("refreshToken");
 
             if (!refreshToken) {
                 return Promise.reject(error);
             }
 
             try {
-                // Запит на оновлення токену
-                const response = await axiosInstance.post("/refresh", {
+                const {data} = await axiosInstance.post("/refresh", {
                     refreshToken,
                 });
+                setTokenToStorage("accessToken", data.accessToken);
+                setTokenToStorage("refreshToken", data.refreshToken);
 
-                const { accessToken: newAccessToken, refreshToken: newRefreshToken } = response.data;
-
-                // Оновлюємо токени в cookies
-                setTokenToStorage("accessToken", newAccessToken);
-                setTokenToStorage("refreshToken", newRefreshToken);
-
-                // Додаємо новий токен в заголовок для повторного запиту
-                originalRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
-
-                return axiosInstance(originalRequest); // Повторно виконуємо запит
+                originalRequest.headers["Authorization"] = `Bearer ${data.accessToken}`;
+                return axiosInstance(originalRequest);
             } catch (err) {
                 console.error("Не вдалося оновити токен", err);
+                setTokenToStorage("accessToken", "");
+                setTokenToStorage("refreshToken", "");
+                window.location.href = "/login";
                 return Promise.reject(error);
             }
         }
-
         return Promise.reject(error);
     }
 );

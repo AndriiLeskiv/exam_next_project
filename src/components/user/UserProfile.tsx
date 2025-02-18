@@ -1,11 +1,13 @@
 import { IUser } from "@/models/user/IUser";
 import { FC } from "react";
+import {IRecipes} from "@/models/recipes/IRecipes";
 
 type Props = {
     selectedUser: IUser;
+    userRecipes: IRecipes[];
 };
 
-const UserProfile: FC<Props> = ({ selectedUser }) => {
+const UserProfile: FC<Props> = async ({ selectedUser, userRecipes }) => {
     console.log("selectedUser", selectedUser);
 
     return (
@@ -22,18 +24,22 @@ const UserProfile: FC<Props> = ({ selectedUser }) => {
             <p>Role: {selectedUser.role}</p>
             <p>User IP: {selectedUser.ip}</p>
 
-            <h3>User recipes:</h3>
-            {/*{userRecipes.length > 0 ? (*/}
-            {/*    <ul>*/}
-            {/*        {userRecipes.map((recipe) => (*/}
-            {/*            <li key={recipe.id}>*/}
-            {/*                <a href={`/recipes/${recipe.id}`}>{recipe.name}</a>*/}
-            {/*            </li>*/}
-            {/*        ))}*/}
-            {/*    </ul>*/}
-            {/*) : (*/}
-            {/*    <p>No recipes found.</p>*/}
-            {/*)}*/}
+            <div>
+                {userRecipes && userRecipes.length > 0 ? (
+                    <>
+                        <h3>User recipes:</h3>
+                        <ul>
+                            {userRecipes.map((recipe) => (
+                                <li key={recipe.id}>
+                                    <a href={`/recipes/${recipe.id}`}>{recipe.name}</a>
+                                </li>
+                            ))}
+                        </ul>
+                    </>
+                ) : (
+                    <p>No recipes found.</p>
+                )}
+            </div>
         </div>
     );
 };
