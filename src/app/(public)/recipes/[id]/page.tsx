@@ -1,13 +1,13 @@
-import {FC} from "react";
-import {Metadata} from "next";
-import {getRecipeById} from "@/service/api.service";
-import {IRecipes} from "@/models/recipes/IRecipes";
+import { FC } from "react";
+import { Metadata } from "next";
+import { getRecipeById } from "@/service/api.service";
+import { IRecipes } from "@/models/recipes/IRecipes";
 import RecipeDetailPage from "@/components/recipe/RecipeDetailPage";
 
 type Props = {
-    params: { id: string },
-    recipes: IRecipes
-}
+    params: { id: string };
+    recipes: IRecipes;
+};
 
 export const generateMetadata = async ({ params }: Props): Promise<Metadata> => {
     const selectedRecipe = await getRecipeById(+params.id);
@@ -16,15 +16,15 @@ export const generateMetadata = async ({ params }: Props): Promise<Metadata> => 
         title: selectedRecipe ? `Recipe: ${selectedRecipe.name}` : "Recipe Not Found",
         description: selectedRecipe
             ? `Learn how to cook ${selectedRecipe.name}, a delicious ${selectedRecipe.cuisine} recipe!`
-            : "Recipe details not found."
+            : "Recipe details not found.",
     };
 };
 
-const RecipePage: FC<Props> = async ({params}) => {
+const RecipePage: FC<Props> = async ({ params }) => {
     try {
-        const selectedRecipe:IRecipes = await getRecipeById(+params.id);
+        const selectedRecipe: IRecipes = await getRecipeById(+params.id);
 
-        console.log('selectedRecipe', selectedRecipe)
+        console.log("selectedRecipe", selectedRecipe);
         return (
             <div>
                 {selectedRecipe ? (

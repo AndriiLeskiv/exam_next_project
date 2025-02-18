@@ -1,5 +1,4 @@
 "use client";
-
 import { createContext, useContext, useState, useEffect } from "react";
 import {clearAuthData, retrieveTokenFromStorage} from "@/service/helpers";
 import { useRouter } from "next/navigation";

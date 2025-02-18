@@ -12,11 +12,10 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
     async (config) => {
         let token: string | null;
-
         if (typeof window === "undefined") {
-          token = await retrieveTokenFromServer("accessToken");
+            token = await retrieveTokenFromServer("accessToken");
         } else {
-           token = getCookie("accessToken") as string | null;
+            token = getCookie("accessToken") as string | null;
         }
 
         if (token) {
@@ -48,36 +47,27 @@ axiosInstance.interceptors.response.use(
             }
             // const refreshToken = retrieveTokenFromStorage<string>("refreshToken");
 
-            console.log('refreshToken', refreshToken)
             if (!refreshToken) {
                 return Promise.reject(error);
             }
 
             try {
-                // Запит на оновлення токена
                 const {data} = await axiosInstance.post("/refresh", {
                     refreshToken,
                 });
-
-                // console.log('data.accessToken', data.accessToken)
-
-                // const { accessToken: newAccessToken, refreshToken: newRefreshToken } = response.data;
-
-                // Оновлюємо токени в cookies
                 setTokenToStorage("accessToken", data.accessToken);
                 setTokenToStorage("refreshToken", data.refreshToken);
-                // setTokenToStorage("refreshToken", newRefreshToken);
 
-                // Додаємо новий токен в заголовок для повторного запиту
                 originalRequest.headers["Authorization"] = `Bearer ${data.accessToken}`;
-
-                return axiosInstance(originalRequest); // Повторно виконуємо запит
+                return axiosInstance(originalRequest);
             } catch (err) {
                 console.error("Не вдалося оновити токен", err);
+                setTokenToStorage("accessToken", "");
+                setTokenToStorage("refreshToken", "");
+                window.location.href = "/login";
                 return Promise.reject(error);
             }
         }
-
         return Promise.reject(error);
     }
 );

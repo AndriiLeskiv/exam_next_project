@@ -17,7 +17,8 @@ export default function Home() {
                     {user?.image && <img src={user.image} alt="User Logo" className="user-logo"/>}
                     {user?.firstName &&
                         <p>Welcome back, dear {user.firstName ? user.firstName : " user"}! Enjoy browsing our
-                            content.</p>}
+                            content.</p>
+                    }
                 </div>
             )}
         </div>

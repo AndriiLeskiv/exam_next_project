@@ -1,5 +1,4 @@
 "use client";
-
 import {useEffect, useState} from "react";
 import {getAllRecipes, getRecipesByTagApi} from "@/service/api.service";
 import {RecipeList} from "@/components/recipe/RecipeList";
