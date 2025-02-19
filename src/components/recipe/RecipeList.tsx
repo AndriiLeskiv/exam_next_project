@@ -13,6 +13,7 @@ export const RecipeList = ({ recipe, onTagClick }: RecipeListProps) => {
             <Link href={`/recipes/${recipe.id}`} className="recipe-title">
                 {recipe.name}
             </Link>
+
             <div className="recipe-tags">
                 {recipe.tags?.map((tag, index) => (
                     <span key={index} className="tag" onClick={() => onTagClick(tag)}>

@@ -1,43 +1,31 @@
-import { FC } from "react";
 import { Metadata } from "next";
 import { getRecipeById } from "@/service/api.service";
 import { IRecipes } from "@/models/recipes/IRecipes";
 import RecipeDetailPage from "@/components/recipe/RecipeDetailPage";
 
-type Props = {
-    params: { id: string };
-    recipes: IRecipes;
-};
+// Типізація параметрів як промісу
+export type ParamsType = Promise<{ id: string }>;
 
-export const generateMetadata = async ({ params }: Props): Promise<Metadata> => {
-    const selectedRecipe = await getRecipeById(+params.id);
-
+// Генерація метаданих для сторінки рецепта
+export const generateMetadata = async ({ params }: { params: ParamsType }): Promise<Metadata> => {
+    const { id } = await params;
     return {
-        title: selectedRecipe ? `Recipe: ${selectedRecipe.name}` : "Recipe Not Found",
-        description: selectedRecipe
-            ? `Learn how to cook ${selectedRecipe.name}, a delicious ${selectedRecipe.cuisine} recipe!`
-            : "Recipe details not found.",
+        title: `User page title ${id}`,
     };
 };
 
-const RecipePage: FC<Props> = async ({ params }) => {
-    try {
-        const selectedRecipe: IRecipes = await getRecipeById(+params.id);
+// Головний компонент сторінки рецепта
+export default async function OneRecipePage(props: { params: ParamsType }) {
+    const { id } = await props.params;
+    const selectedRecipe: IRecipes | null = await getRecipeById(+id);
 
-        console.log("selectedRecipe", selectedRecipe);
-        return (
-            <div>
-                {selectedRecipe ? (
-                    <RecipeDetailPage selectedRecipe={selectedRecipe} />
-                ) : (
-                    <p>No recipes found.</p>
-                )}
-            </div>
-        );
-    } catch (error) {
-        console.error("Error fetching recipe:", error);
-        return <p>Failed to load the recipe. Please try again later.</p>;
+    if (!selectedRecipe) {
+        return <p>No recipes found.</p>;
     }
-};
 
-export default RecipePage;
+    return (
+        <div>
+            <RecipeDetailPage selectedRecipe={selectedRecipe} />
+        </div>
+    );
+}
