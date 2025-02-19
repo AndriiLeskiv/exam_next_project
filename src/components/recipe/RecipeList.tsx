@@ -10,7 +10,7 @@ interface RecipeListProps {
 export const RecipeList = ({ recipe, onTagClick }: RecipeListProps) => {
     return (
         <div className="recipe-item">
-            <Link href={`/recipes/${recipe.id}/list-page`} className="recipe-title">
+            <Link href={`/recipes/${recipe.id}`} className="recipe-title">
                 {recipe.name}
             </Link>
 

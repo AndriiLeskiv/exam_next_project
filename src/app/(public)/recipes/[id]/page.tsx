@@ -1,38 +1,31 @@
-import { FC } from "react";
 import { Metadata } from "next";
 import { getRecipeById } from "@/service/api.service";
 import { IRecipes } from "@/models/recipes/IRecipes";
 import RecipeDetailPage from "@/components/recipe/RecipeDetailPage";
 
-type Props = {
-    params: { id: string };
-    recipes: IRecipes;
-};
+// Типізація параметрів як промісу
+export type ParamsType = Promise<{ id: string }>;
 
-export const generateMetadata = ({params}: Props): Metadata => {
+// Генерація метаданих для сторінки рецепта
+export const generateMetadata = async ({ params }: { params: ParamsType }): Promise<Metadata> => {
+    const { id } = await params;
     return {
-        title: `Recipe page title ${params.id}`,
+        title: `User page title ${id}`,
     };
-}
-
-const OneRecipePage: FC<Props> = async ({ params }) => {
-    try {
-        const selectedRecipe: IRecipes = await getRecipeById(+params.id);
-
-        console.log("selectedRecipe", selectedRecipe);
-        return (
-            <div>
-                {selectedRecipe ? (
-                    <RecipeDetailPage selectedRecipe={selectedRecipe} />
-                ) : (
-                    <p>No recipes found.</p>
-                )}
-            </div>
-        );
-    } catch (error) {
-        console.error("Error fetching recipe:", error);
-        return <p>Failed to load the recipe. Please try again later.</p>;
-    }
 };
 
-export default OneRecipePage;
+// Головний компонент сторінки рецепта
+export default async function OneRecipePage(props: { params: ParamsType }) {
+    const { id } = await props.params;
+    const selectedRecipe: IRecipes | null = await getRecipeById(+id);
+
+    if (!selectedRecipe) {
+        return <p>No recipes found.</p>;
+    }
+
+    return (
+        <div>
+            <RecipeDetailPage selectedRecipe={selectedRecipe} />
+        </div>
+    );
+}
