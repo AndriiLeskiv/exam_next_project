@@ -1,36 +1,107 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# DummyJSON User & Recipe App
 
-## Getting Started
+This project is a **web application** built using **Next.js** and **React**, allowing users to log in and browse through a collection of users and recipes. The app interacts with the **DummyJSON API**, providing features like **user authentication, searching, pagination, and detailed pages** for both users and recipes.
 
-First, run the development server:
+---
+
+## 📌 Features
+
+✅ **Main Menu:**
+- Displays links to pages and a logo for authenticated users.
+- If the user is not logged in, only a link to the authentication page is available.
+
+✅ **Search Functionality:**
+- Allows searching for users or recipes based on string values or ID.
+- This search works across different pages (users or recipes).
+
+✅ **Pagination:**
+- Data displayed on all list pages (**users and recipes**) is paginated.
+- Prevents overwhelming the user with too much information at once.
+
+---
+
+## 📄 Pages
+
+### 🏠 Home Page (HS)
+- Assumes the user is **not logged in** by default.
+- Displays a message prompting the user to **authenticate**, along with a link to the authentication page.
+
+### 🔑 Authentication Page (SAP)
+- A **login form** that requires a username and password for authentication using the **DummyJSON API**.
+- **Login credentials:**
+  ```plaintext
+  username: 'emilys'
+  password: 'emilyspass'
+  
+### ✅ After Successful Authentication:
+- The **main menu** updates to show links to the **recipe** and **user pages**.
+- The user’s **profile logo** (from the DummyJSON user object) is displayed.
+
+---
+
+## 👥 User Page
+**Displays:**
+- 📌 **Main menu**
+- 🔍 **Search bar**
+- 📋 **List of users** with basic information (**name, age, email**).
+
+**Clicking on a user:**
+- 🔎 Redirects to a **detailed page** showing **up to 10 fields**.
+- 📖 Displays a **list of their recipes**.
+- 🍽 Each recipe is linked to its **own detailed page**.
+
+---
+
+## 🍽 Recipe Page
+**Displays:**
+- 📌 **Main menu**
+- 🔍 **Search bar**
+- 📋 **List of recipes** (**title + tags**).
+
+**Clicking on a recipe:**
+- 📄 Redirects to a **detailed recipe page** with complete information.
+- 🔗 Provides a **link to the user** who created the recipe.
+
+**Clicking on a tag:**
+- 🔍 Filters and displays **all recipes** with the same tag.
+
+---
+
+## 🔄 Pagination
+- 📑 All list data (**users and recipes**) is **paginated** to improve the user experience.
+- 📌 Pagination **splits the data into smaller chunks**, making navigation easier.
+
+---
+
+## ⚡ State Management
+This project is built using **Next.js** and **React**, ensuring:
+- ⚡ **Efficient rendering**
+- 🚀 **Optimized performance**
+- 🎯 **Seamless user experience**
+
+---
+
+## 🎨 Design
+- The design is kept **simple and functional**.
+- There are **no fixed aesthetic requirements**.
+
+---
+
+## 🛠 Setup
+
+### 📥 Installation
+Clone the repository:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/AndriiLeskiv/exam_next_project
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🚀 Deployment
+The project is **deployed on Vercel** and can be accessed at:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+🔗 **https://exam-next-project-6f9l.vercel.app/**
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 👨‍💻 Created by  
+**Andrii Leskiv**

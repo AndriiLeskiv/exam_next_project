@@ -9,7 +9,6 @@ type Props = {
 const RecipeDetailPage: FC<Props> = ({ selectedRecipe }) => {
     if (!selectedRecipe) return <p>No recipe details available.</p>;
 
-    console.log("selectedRecipes", selectedRecipe);
     return (
         <div className="details_result">
             <h1>{selectedRecipe.name}</h1>

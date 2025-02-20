@@ -8,8 +8,6 @@ type Props = {
 };
 
 const UserProfile: FC<Props> = async ({ selectedUser, userRecipes }) => {
-    console.log("selectedUser", selectedUser);
-
     return (
         <div className="details_result">
             <h2>{selectedUser.firstName} {selectedUser.lastName}</h2>
@@ -23,7 +21,6 @@ const UserProfile: FC<Props> = async ({ selectedUser, userRecipes }) => {
             <p>Status: {selectedUser.age}</p>
             <p>Role: {selectedUser.role}</p>
             <p>User IP: {selectedUser.ip}</p>
-
             <div>
                 {userRecipes && userRecipes.length > 0 ? (
                     <>

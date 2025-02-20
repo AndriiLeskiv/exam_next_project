@@ -45,7 +45,6 @@ axiosInstance.interceptors.response.use(
             } else {
                 refreshToken = getCookie("refreshToken") as string | null;
             }
-            // const refreshToken = retrieveTokenFromStorage<string>("refreshToken");
 
             if (!refreshToken) {
                 return Promise.reject(error);

@@ -3,9 +3,7 @@ import './SearchBar.css'
 
 interface SearchBarProps {
     searchType: "recipes" | "users";
-
     onSearch(value: string): void;
-
     search: string
 }
 

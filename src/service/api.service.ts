@@ -10,12 +10,8 @@ export const loginUser = async (username: string, password: string): Promise<IUs
         setTokenToStorage("accessToken", data.accessToken);
         setTokenToStorage("refreshToken", data.refreshToken);
         setTokenToStorage("user", {firstName: data.firstName, image: data.image });
-
         return data;
-    } catch (error: unknown) {
-        if (error instanceof Error) {
-            throw new Error(error.message || "Login failed");
-        }
+    } catch {
         throw new Error("Login failed");
     }
 };
@@ -27,7 +23,6 @@ export const getAllUsers = async (page: number, query: string): Promise<{ users:
         const {data} = await axiosInstance.get(`/users/search`, {
             params: { q: query, skip, limit },
         });
-        console.log('getAllUsers', data);
         return data;
     } catch (error) {
         console.error("Помилка отримання користувачів:", error);
@@ -38,7 +33,6 @@ export const getAllUsers = async (page: number, query: string): Promise<{ users:
 export const getUserById = async (id: number): Promise<IUser> => {
     try {
         const { data } = await axiosInstance.get<IUser>(`/users/${id}`);
-        console.log('getUserById', data);
         return data;
     } catch (error) {
         console.error("Помилка отримання користувача:", error);
@@ -56,8 +50,6 @@ export const getAllRecipes = async (page: number, query: string): Promise<{
         const { data } = await axiosInstance.get(`/recipes/search`, {
             params: { q: query, skip, limit },
         });
-
-        console.log('getAllRecipes', data)
         return data;
     } catch (error) {
         console.error("Помилка отримання рецептів:", error);
@@ -70,7 +62,6 @@ export const getRecipesByTagApi = async (tag: string, page: number): Promise<{ r
         const { data } = await axiosInstance.get(`/recipes/tag/${tag}`, {
             params: { page }
         });
-        console.log('getRecipesByTagApi', data)
         return data;
     } catch (error) {
         console.error("Помилка отримання рецептів за тегом:", error);
@@ -81,7 +72,6 @@ export const getRecipesByTagApi = async (tag: string, page: number): Promise<{ r
 export const getRecipeById = async (id: number): Promise<IRecipes> => {
     try {
         const { data } = await axiosInstance.get<IRecipes>(`/recipes/${id}`);
-        console.log('getRecipeById', data);
         return data;
     } catch (error) {
         console.error("Помилка отримання рецепта:", error);
