@@ -99,7 +99,7 @@ git clone https://github.com/AndriiLeskiv/exam_next_project
 ## 🚀 Deployment
 The project is **deployed on Vercel** and can be accessed at:
 
-🔗 **https://exam-next-project-6f9l.vercel.app/**
+🔗 **https://exam-next-project.vercel.app/**
 
 ---
 
