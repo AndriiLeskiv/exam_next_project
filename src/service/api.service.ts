@@ -98,13 +98,23 @@ export const getAllRecipesForUser = async (userId: number): Promise<IRecipes[]> 
                 }
                 skip += limit;
             } else {
-                throw new Error('Recipes not found or the response is not an array');
+                console.error('Recipes not found or the response is not an array');
             }
         }
 
         return allRecipes.filter((recipe: IRecipes) => recipe.userId === userId);
     } catch (error) {
         console.error("Error fetching recipes:", error);
+        throw error;
+    }
+};
+
+export const getFromUser = async (): Promise<IUser> => {
+    try {
+        const {data} = await axiosInstance.get<IUser>(`/users/me`);
+        return data;
+    } catch (error) {
+        console.error("Помилка отримання інформації про конкретного юзера:", error);
         throw error;
     }
 };

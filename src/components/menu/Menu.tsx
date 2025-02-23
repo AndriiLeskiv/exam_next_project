@@ -19,7 +19,9 @@ export const Menu = () => {
                         <li><Link href="/recipes">Recipes</Link></li>
                         <li className="user-profile">
                             {user?.image && <img src={user.image} alt="User Logo" className="user-logo"/>}
-                            <span>{user?.firstName || "User"}</span>
+                            <Link href="/profile">
+                                <span>{user?.firstName || "User"}</span>
+                            </Link>
                         </li>
                         <li>
                             <button onClick={handleLogout}>Logout</button>
